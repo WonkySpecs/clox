@@ -16,8 +16,8 @@ static void repl() {
             break;
         }
 
-        if (strcmp("exit", line)) {
-            printf("\n");
+        if (strcmp("exit", line) == 0) {
+            printf("Catch you later\n");
             break;
         }
         interpret(line);
