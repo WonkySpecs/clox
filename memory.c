@@ -2,6 +2,7 @@
 #include <stdio.h>
 
 #include "memory.h"
+#include "vm.h"
 
 /*
 oldSize = 0, newSize > 0: Allocate new block
@@ -21,4 +22,24 @@ void* reallocate(void* pointer, size_t oldSize, size_t newSize) {
         exit(1);
     }
     return result;
+}
+
+void freeObject(Obj* obj) {
+    switch (obj->type) {
+        case OBJ_STRING: {
+            ObjString* s = (ObjString*)(obj);
+            FREE_ARRAY(char, s->chars, s->length + 1);
+            FREE(ObjString, s);
+            break;
+        }
+    }
+}
+
+void freeObjects() {
+    Obj* obj = vm.objects;
+    while (obj != NULL) {
+        Obj* next = obj->next;
+        freeObject(obj);
+        obj = next;
+    }
 }

@@ -17,6 +17,7 @@ typedef enum {
 
 struct Obj {
     ObjType type;
+    Obj* next;
 };
 
 struct ObjString {
@@ -29,6 +30,8 @@ static bool isObjType(Value value, ObjType type) {
     return IS_OBJ(value) && OBJ_TYPE(value) == type;
 }
 
+ObjString* takeString(char* chars, int length);
 ObjString* copyString(const char* chars, int length);
+void printObject(Value value);
 
 #endif
